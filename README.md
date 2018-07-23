@@ -2,7 +2,7 @@
 
 ## Overview
 
-The AWS Greengrass Core SDK for C provides an interface to interact with Greengrass Core system on the edge. It is c89 compliant and is meant to be performant while minimizing dependencies.
+The AWS Greengrass Core SDK for C provides an interface to interact with the Greengrass Core system on the edge. It is c89 compliant and is meant to be performant while minimizing dependencies.
 
 AWS Greengrass Core SDK for C is now in General Availability.
 
@@ -28,18 +28,18 @@ cmake ..
 cmake --build .
 ```
 
-The build will produce a shared object named **libaws-greengrass-core-sdk-c.so** under build/aws-greengras-core-sdk-c directory. This is the shared object that the Lambda executable links to.
+The build will produce a shared object named **libaws-greengrass-core-sdk-c.so** under the build/aws-greengras-core-sdk-c directory. This is the shared object that the Lambda executable links to.
 
 **Note:**
-  - the shared object is a stub implementation that helps Lambda executable to link against. It will be overriden by the actual shared object that comes with Greengrass Core release bundle.
-  - the `-Wl,--enable-new-dtags` flag is needed for adding Greengrass C SDK shared object path into Lambda executable's RUNPATH, so that the stub shared object could be overriden by the **libaws-greengrass-core-sdk-c.so** which comes along with Greengrass Core Release bundle. It is automatically included when linking to aws-greengrass-core-sdk-c.
+  - The shared object is a stub implementation that helps Lambda executables to link against. It will be overridden by the actual shared object that comes with the Greengrass Core release bundle.
+  - The `-Wl,--enable-new-dtags` flag is needed for adding the Greengrass C SDK shared object path into the Lambda executable's RUNPATH, so that the stub shared object can be overridden by the **libaws-greengrass-core-sdk-c.so** which comes along with the Greengrass Core Release bundle. It is automatically included when linking to aws-greengrass-core-sdk-c.
 
 ## Building Greengrass Native Lambda with CMake
-You can use CMake to build Greengrass Native Lambda. Other build tools could work as well.
+You can use CMake to build Greengrass Lambda executables. Other build tools could work as well.
 Here cmake is shown as an example:
 
 ### Setting up a CMake Project
-Create a directory to hold your project
+Create a directory to hold your project:
 
 ```
 mkdir my_gg_native_function
@@ -64,14 +64,14 @@ add_executable(my_gg_native_funtion main.cpp)
 target_link_libraries(my_gg_native_funtion aws-greengrass-core-sdk-c)
 ```
 
-To get started quickly, there are several pre-made examples in aws-greengras-core-sdk-c-example directory for your reference. Those examples are built along with the SDK.
+To get started quickly, there are several pre-made examples in the aws-greengras-core-sdk-c-example directory for your reference. Those examples are built along with the SDK.
 
 ## Creating Deployment Package
-After lambda is built, it should be packaged into deployment package, a zip file consisting of your executable and any dependencies. Then you could upload the lambda to AWS Lambda and deploy it to device using AWS Greengrass by following normal process.
+After the Lambda executable is built, it should be packaged into a deployment package, which is a zip file consisting of your executable and any dependencies. Then you can upload the package to AWS Lambda and deploy it to a device by following the normal AWS Greengrass process.
 
 ## Using the SDK
 ### Initialization
-All code using the AWS Greengrass SDK for C must do **gg_global_init()** before calling any other APIs and **gg_runtime_start()** to start the runtime as following:
+All code that uses the AWS Greengrass SDK for C must do **gg_global_init()** before calling any other APIs and **gg_runtime_start()** to start the runtime, as follows:
 ```
 #include "greengrasssdk.h"
 
@@ -87,7 +87,7 @@ int main() {
 ```
 
 ### Reading Event Payload
-To read event payload for lambda handler to process, **gg_lambda_handler_read()** shall be used. The amount of data written into the buffer is not guaranteed to be complete until **amount_read** is zero.
+To read event payload for the Lambda handler to process, use **gg_lambda_handler_read()**. The amount of data written into the buffer is not guaranteed to be complete until **amount_read** is zero.
 
 The following is a sample usage of the method:
 
@@ -117,16 +117,16 @@ cleanup:
 }
 ```
 ### Writing Handler Response
-After lambda handler finishes processing, response could be returned using **gg_lambda_handler_write_response()**. In the case if this method is not called, empty response will be returned.
+After the Lambda handler finishes processing, responses can be returned using **gg_lambda_handler_write_response()**. If this method is not called, an empty response will be returned.
 
 ### Writing Handler Error Response
-When lambda encounters any error, the error response could be returned to caller using **gg_lambda_handler_write_error()**.
+When the Lambda handler encounters any error, the error response can be returned to the caller using **gg_lambda_handler_write_error()**.
 
 ### Initialize API Request
 Every API request must be initialized using **gg_request_init()** before making the actual request.
 
 ### Reading API Response
-There are several cases which require reading of response after an API call, such as **gg_invoke()**, **gg_get_thing_shadow()**, etc. **gg_request_read()** shall be used after the method call to retrieve output response.
+There are several cases which require reading a response after an API call, such as **gg_invoke()**, **gg_get_thing_shadow()**, etc. **gg_request_read()** should be used after the method call to retrieve the output response.
 
 The following is a sample usage of the method:
 
@@ -157,7 +157,7 @@ cleanup:
 ```
 
 ### Error Handling
-When there is an error on method call, all the APIs have **gg_error** returned as return code. And for **gg_publish()**, **gg_invoke()** and **gg_xxx_thing_shadow()** APIs, you can check server side error from request status from **gg_request_result()** struct.
+When there is an error on method call, all the APIs have **gg_error** returned as the return code. And for **gg_publish()**, **gg_invoke()** and **gg_xxx_thing_shadow()** APIs, you can check for server side errors from request status from the **gg_request_result()** struct.
 
 ## API Documentation
 Please see [API Documentation](https://aws-greengrass-core-sdk-c-docs.s3-website-us-east-1.amazonaws.com/v1.0.0/index.html) for more details.
