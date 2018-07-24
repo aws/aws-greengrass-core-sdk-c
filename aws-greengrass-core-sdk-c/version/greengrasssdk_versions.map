@@ -1,0 +1,29 @@
+aws_greengrass_core_sdk_c_1.0 {
+    global:
+        # Global Methods
+        gg_global_init;
+
+        # Logging Methods
+        gg_log;
+
+        # gg_request Methods
+        gg_request_init;
+        gg_request_reuse;
+        gg_request_close;
+        gg_request_read;
+
+        # Runtime Methods
+        gg_runtime_start;
+        gg_lambda_handler_read;
+        gg_lambda_handler_write_response;
+        gg_lambda_handler_write_error;
+
+        # Lambda Methods
+        gg_invoke;
+
+        # AWS IoT Methods
+        gg_publish;
+        gg_get_thing_shadow;
+        gg_update_thing_shadow;
+        gg_delete_thing_shadow;
+};
