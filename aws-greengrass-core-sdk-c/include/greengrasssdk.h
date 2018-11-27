@@ -260,6 +260,23 @@ gg_error gg_lambda_handler_write_response(const void *response,
 gg_error gg_lambda_handler_write_error(const char *error_message);
 
 /***************************************
+**     AWS Secrets Manager Methods    **
+***************************************/
+
+/**
+ * @brief Get secret value for the given secret
+ * @param ggreq Provides context about the request
+ * @param secret_id Null-terminated string id which secret to get
+ * @param version_id Null-terminated string version id which version to get
+ * @param version_stage Optional null-terminated string version stage which stage to get
+ * @param result Describes the result of the request
+ * @return Greengrass error code
+ */
+gg_error gg_get_secret_value(gg_request ggreq, const char *secret_id,
+		const char *version_id, const char *version_stage,
+		gg_request_result *result);
+
+/***************************************
 **           Lambda Methods           **
 ***************************************/
 

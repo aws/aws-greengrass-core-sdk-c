@@ -27,3 +27,9 @@ aws_greengrass_core_sdk_c_1.0 {
         gg_update_thing_shadow;
         gg_delete_thing_shadow;
 };
+
+aws_greengrass_core_sdk_c_1.1 {
+    global:
+        # Secrets Manager Methods
+        gg_get_secret_value;
+} aws_greengrass_core_sdk_c_1.0;

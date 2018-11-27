@@ -96,6 +96,22 @@ gg_error gg_lambda_handler_write_error(const char *error_message) {
 }
 
 /***************************************
+**     AWS Secrets Manager Methods    **
+***************************************/
+
+gg_error gg_get_secret_value(gg_request ggreq, const char *secret_id,
+                             const char *version_id, const char *version_stage,
+                             gg_request_result *result) {
+    (void)ggreq;
+    (void)secret_id;
+    (void)version_id;
+    (void)version_stage;
+    (void)result;
+    print_loaded_stub_error();
+    return GGE_RESERVED_MAX;
+}
+
+/***************************************
 **           Lambda Methods           **
 ***************************************/
 

@@ -160,7 +160,7 @@ cleanup:
 When there is an error on method call, all the APIs have **gg_error** returned as the return code. And for **gg_publish()**, **gg_invoke()** and **gg_xxx_thing_shadow()** APIs, you can check server side error from request status from the **gg_request_result()** struct.
 
 ## API Documentation
-Please see [API Documentation](http://aws-greengrass-core-sdk-c-docs.s3-website-us-east-1.amazonaws.com/v1.0.0/index.html) for more details.
+Please see [API Documentation](http://aws-greengrass-core-sdk-c-docs.s3-website-us-east-1.amazonaws.com/v1.1.0/index.html) for more details.
 
 ## Opening Issues
 If you encounter a bug with the AWS Greengrass SDK for C, we would like to hear about it. Search the [existing issues](https://github.com/aws/aws-greengrass-core-sdk-c/issues) and see if others are also experiencing the issue before opening a new issue. When creating issue, please fill in the following template:

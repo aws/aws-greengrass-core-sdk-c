@@ -28,3 +28,7 @@ target_link_libraries(hello_world_example aws-greengrass-core-sdk-c)
 target_compile_options(hello_world_example PRIVATE -Werror -Wall -Wextra -pedantic -std=c99 -Wc++-compat)
 
 add_subdirectory(tes)
+
+add_executable(secretsmanager_example secretsmanager.c)
+target_link_libraries(secretsmanager_example aws-greengrass-core-sdk-c)
+target_compile_options(secretsmanager_example PRIVATE -Werror -Wall -Wextra -pedantic -std=c99 -Wc++-compat)
