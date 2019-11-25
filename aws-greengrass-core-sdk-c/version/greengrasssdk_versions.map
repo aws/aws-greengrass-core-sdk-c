@@ -33,3 +33,12 @@ aws_greengrass_core_sdk_c_1.1 {
         # Secrets Manager Methods
         gg_get_secret_value;
 } aws_greengrass_core_sdk_c_1.0;
+
+aws_greengrass_core_sdk_c_1.2 {
+    global:
+        # AWS IoT Methods
+        gg_publish_options_init;
+        gg_publish_options_free;
+        gg_publish_options_set_queue_full_policy;
+        gg_publish_with_options;
+} aws_greengrass_core_sdk_c_1.1;

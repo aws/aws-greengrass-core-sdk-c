@@ -35,6 +35,8 @@ typedef enum gg_error {
     GGE_INVALID_STATE,
     /** Returned when SDK encounters internal failure */
     GGE_INTERNAL_FAILURE,
+    /** Returned when process gets signal to terminate */
+    GGE_TERMINATE,
 
     GGE_RESERVED_MAX,
     GGE_RESERVED_PAD = 0x7FFFFFFF
@@ -45,7 +47,8 @@ typedef struct _gg_request *gg_request;
 /**
  * @brief Greengrass SDK request status enum
  *
- * Enumeration of status populated when **gg_invoke()**, **gg_publish()** or **gg_xxx_thing_shadow()** function is called.
+ * Enumeration of status populated when **gg_invoke()**, **gg_publish()** or
+ * **gg_xxx_thing_shadow()** function is called.
  */
 typedef enum gg_request_status {
     /** function call returns expected payload type */
@@ -122,6 +125,23 @@ typedef struct gg_invoke_options {
     const void *payload;
     size_t payload_size;
 } gg_invoke_options;
+
+/**
+ * @brief Describes the policy options to take when Greengrass's queue is full
+ */
+typedef enum gg_queue_full_policy_options {
+    /** GGC will deliver messages to as many targets as possible **/
+    GG_QUEUE_FULL_POLICY_BEST_EFFORT,
+    /** GGC will either deliver messages to all targets and return request
+     * status GG_REQUEST_SUCCESS or deliver to no targets and return a
+     * request status GG_REQUEST_AGAIN **/
+    GG_QUEUE_FULL_POLICY_ALL_OR_ERROR,
+
+    GG_QUEUE_FULL_POLICY_RESERVED_MAX,
+    GG_QUEUE_FULL_POLICY_RESERVED_PAD = 0x7FFFFFFF
+} gg_queue_full_policy_options;
+
+typedef struct _gg_publish_options *gg_publish_options;
 
 /**
  * @brief Describes log levels could used in **gg_log()**
@@ -295,6 +315,44 @@ gg_error gg_invoke(gg_request ggreq, const gg_invoke_options *opts,
 ***************************************/
 
 /**
+ * @brief Initialize the publish options
+ * @param opts Pointer to publish options to be initialized
+ * @return Greengrass error code
+ * @note Need to call gg_publish_options_free on opts when done using it
+ */
+gg_error gg_publish_options_init(gg_publish_options *opts);
+
+/**
+ * @brief Free a publish options that was created by gg_publish_options_init
+ * @param opts Publish options to be freed
+ * @return Greengrass error code
+ */
+gg_error gg_publish_options_free(gg_publish_options opts);
+
+/**
+ * @brief Sets the queue full policy on a publish options
+ * @param opts Publish options to be configured
+ * @param policy Selected queue full policy to be set
+ * @return Greengrass error code
+ */
+gg_error gg_publish_options_set_queue_full_policy(gg_publish_options opts,
+        gg_queue_full_policy_options policy);
+
+/**
+ * @brief Publish a payload to a topic
+ * @param ggreq Provides context about the request
+ * @param topic Null-terminated string topic where to publish the payload
+ * @param payload Data to be sent to the topic - caller will free
+ * @param payload_size Size of payload buffer
+ * @param opts Publish options that configure publish behavior
+ * @param result Describes the result of the request
+ * @return Greengrass error code
+ */
+gg_error gg_publish_with_options(gg_request ggreq, const char *topic,
+        const void *payload, size_t payload_size, const gg_publish_options opts,
+        gg_request_result *result);
+
+/**
  * @brief Publish a payload to a topic
  * @param ggreq Provides context about the request
  * @param topic Null-terminated string topic where to publish the payload
@@ -302,6 +360,7 @@ gg_error gg_invoke(gg_request ggreq, const gg_invoke_options *opts,
  * @param payload_size Size of payload buffer
  * @param result Describes the result of the request
  * @return Greengrass error code
+ * @note Calls gg_publish_with_options with opts==NULL
  */
 gg_error gg_publish(gg_request ggreq, const char *topic, const void *payload,
                     size_t payload_size, gg_request_result *result);

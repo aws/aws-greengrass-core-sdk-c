@@ -128,6 +128,39 @@ gg_error gg_invoke(gg_request ggreq, const gg_invoke_options *opts,
 **           AWS IoT Methods          **
 ***************************************/
 
+gg_error gg_publish_options_init(gg_publish_options *opts) {
+    (void)opts;
+    print_loaded_stub_error();
+    return GGE_RESERVED_MAX;
+}
+
+gg_error gg_publish_options_free(gg_publish_options opts) {
+    (void)opts;
+    print_loaded_stub_error();
+    return GGE_RESERVED_MAX;
+}
+
+gg_error gg_publish_options_set_queue_full_policy(gg_publish_options opts,
+        gg_queue_full_policy_options policy) {
+    (void)opts;
+    (void)policy;
+    print_loaded_stub_error();
+    return GGE_RESERVED_MAX;
+}
+
+gg_error gg_publish_with_options(gg_request ggreq, const char *topic,
+        const void *payload, size_t payload_size, const gg_publish_options opts,
+        gg_request_result *result) {
+    (void)ggreq;
+    (void)topic;
+    (void)payload;
+    (void)payload_size;
+    (void)opts;
+    (void)result;
+    print_loaded_stub_error();
+    return GGE_RESERVED_MAX;
+}
+
 gg_error gg_publish(gg_request ggreq, const char *topic, const void *payload,
                     size_t payload_size, gg_request_result *result) {
     (void)ggreq;
